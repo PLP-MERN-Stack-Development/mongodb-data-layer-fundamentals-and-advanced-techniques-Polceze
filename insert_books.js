@@ -1,17 +1,16 @@
-// insert_books.js - Script to populate MongoDB with sample book data
+// insert_books.js - Script to populate MongoDB with sample book data - mongosh-compatible script
 
-// Import MongoDB client
-const { MongoClient } = require('mongodb');
+// Switch to (or create) the database
+db = db.getSiblingDB('plp_bookstore');
 
-// Connection URI (replace with your MongoDB connection string if using Atlas)
-const uri = 'mongodb://localhost:27017';
+// Drop the collection if it already exists
+if (db.books) {
+  db.books.drop()
+  print("Existing 'books' collection dropped")
+}
 
-// Database and collection names
-const dbName = 'plp_bookstore';
-const collectionName = 'books';
-
-// Sample book data
-const books = [
+// Insert book documents
+db.books.insertMany([
   {
     title: 'To Kill a Mockingbird',
     author: 'Harper Lee',
@@ -132,51 +131,13 @@ const books = [
     pages: 342,
     publisher: 'Thomas Cautley Newby'
   }
-];
+])
 
-// Function to insert books into MongoDB
-async function insertBooks() {
-  const client = new MongoClient(uri);
+print("Books inserted successfully!")
 
-  try {
-    // Connect to the MongoDB server
-    await client.connect();
-    console.log('Connected to MongoDB server');
+// Display inserted documents
+db.books.find().pretty()
 
-    // Get database and collection
-    const db = client.db(dbName);
-    const collection = db.collection(collectionName);
-
-    // Check if collection already has documents
-    const count = await collection.countDocuments();
-    if (count > 0) {
-      console.log(`Collection already contains ${count} documents. Dropping collection...`);
-      await collection.drop();
-      console.log('Collection dropped successfully');
-    }
-
-    // Insert the books
-    const result = await collection.insertMany(books);
-    console.log(`${result.insertedCount} books were successfully inserted into the database`);
-
-    // Display the inserted books
-    console.log('\nInserted books:');
-    const insertedBooks = await collection.find({}).toArray();
-    insertedBooks.forEach((book, index) => {
-      console.log(`${index + 1}. "${book.title}" by ${book.author} (${book.published_year})`);
-    });
-
-  } catch (err) {
-    console.error('Error occurred:', err);
-  } finally {
-    // Close the connection
-    await client.close();
-    console.log('Connection closed');
-  }
-}
-
-// Run the function
-insertBooks().catch(console.error);
 
 /*
  * Example MongoDB queries you can try after running this script:

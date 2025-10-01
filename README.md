@@ -1,59 +1,93 @@
-# MongoDB Fundamentals - Week 1
+# MongoDB Fundamentals - Week 1 Assignment
 
-## Setup Instructions
+This project demonstrates comprehensive MongoDB operations including CRUD, advanced queries, aggregation pipelines, and indexing for a bookstore database.
 
-Before you begin this assignment, please make sure you have the following installed:
+## Prerequisites
 
-1. **MongoDB Community Edition** - [Installation Guide](https://www.mongodb.com/docs/manual/administration/install-community/)
-2. **MongoDB Shell (mongosh)** - This is included with MongoDB Community Edition
-3. **Node.js** - [Download here](https://nodejs.org/)
+- MongoDB Atlas account
+- `mongosh` (MongoDB Shell) installed
+- Internet connection
+- Access to the `plp_bookstore` database
 
-### Node.js Package Setup
+## Database Setup
 
-Once you have Node.js installed, run the following commands in your assignment directory:
+1. **Ensure your database has the books collection** with sample data. If not, run the insertion script first:
 
 ```bash
-# Initialize a package.json file
-npm init -y
-
-# Install the MongoDB Node.js driver
-npm install mongodb
+# Load the initial book data
+load("insert_books.js")
 ```
+## Running the Queries Script
 
-## Assignment Overview
+1. Connect to your MongoDB Atlas database using mongosh:
 
-This week focuses on MongoDB fundamentals including:
-- Creating and connecting to MongoDB databases
-- CRUD operations (Create, Read, Update, Delete)
-- MongoDB queries and filters
-- Aggregation pipelines
-- Indexing for performance
+```bash
+mongosh "mongodb+srv://Cluster0.your-cluster-id.mongodb.net/plp_bookstore" --username your-username
+```
+2. Once connected, run the queries script:
+```bash
+load("queries.js")
+```
+## Script Output
+The script will execute and display results for:
 
-## Submission
+### Task 2: Basic CRUD Operations
+- Find all books in "Fiction" genre
 
-Complete all the exercises in this assignment and push your code to GitHub using the provided GitHub Classroom link.
+- Find books published after 1950
 
-## Getting Started
+- Find books by George Orwell
 
-1. Accept the GitHub Classroom assignment invitation
-2. Clone your personal repository that was created by GitHub Classroom
-3. Install MongoDB locally or set up a MongoDB Atlas account
-4. Run the provided `insert_books.js` script to populate your database
-5. Complete the tasks in the assignment document
+- Update price of "The Great Gatsby"
 
-## Files Included
+- Delete "Moby Dick" book
 
-- `Week1-Assignment.md`: Detailed assignment instructions
-- `insert_books.js`: Script to populate your MongoDB database with sample book data
+### Task 3: Advanced Queries
+- Books in stock published after 1950
 
-## Requirements
+- Projection showing only title, author, price
 
-- Node.js (v18 or higher)
-- MongoDB (local installation or Atlas account)
-- MongoDB Shell (mongosh) or MongoDB Compass
+- Sorting by price (ascending/descending)
 
-## Resources
+- Pagination (5 books per page)
 
-- [MongoDB Documentation](https://docs.mongodb.com/)
-- [MongoDB University](https://university.mongodb.com/)
-- [MongoDB Node.js Driver](https://mongodb.github.io/node-mongodb-native/) 
+### Task 4: Aggregation Pipeline
+- Average price by genre
+
+- Authors with most books
+
+- Books count by publication decade
+
+### Task 5: Indexing
+- Create indexes on title field
+
+- Create compound index on author + published_year
+
+- Performance comparison using explain()
+
+## Expected Results
+- After running the script, you should see:
+
+- JSON output of all query results
+
+- Counts of documents found
+
+- Aggregation results with calculated values
+
+- Index creation confirmation
+
+- Performance metrics
+
+## Files in this Project
+- insert_books.js - Initial data population script
+
+- queries.js - Main assignment queries script
+
+- README.md - This documentation file
+
+## Troubleshooting
+- Connection issues: Ensure your IP is whitelisted in Atlas Network Access
+
+- Database not found: Make sure you're connected to the correct cluster and database
+
+- Script errors: Verify all files are in the same directory as where you're running mongosh
